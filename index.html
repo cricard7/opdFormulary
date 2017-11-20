@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+	<link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
+	<link href="style.css" type="text/css" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+
+<body>
+	<div id="app">
+
+		<v-app dark id="inspire">
+
+			<v-toolbar color="blue darken-3" dark app clipped-left fixed>
+				<v-toolbar-title class="ml-0 pl-3">
+					Outpatient Dispensing WebApp
+				</v-toolbar-title>
+
+				<v-spacer></v-spacer>
+				
+			</v-toolbar>
+			<main>
+				<v-content>
+					<v-container fluid grid-list-md class="mt-5">
+						<v-layout row wrap>
+							<v-flex md6 offset-md1 class="mr-2">
+								<v-layout column>
+
+									<v-flex md-12 class="mb-3">
+										<drugindication :drugname="selectedDrugObj.drugName" :status="selectedDrugObj.status" :criteria="selectedDrugObj.indication"></drugindication>
+									</v-flex>
+
+									<v-flex md-12>
+
+										<druginfo :druginfo="selectedDrugObj.drugInfo"></druginfo>
+
+									</v-flex>
+
+								</v-layout>
+							</v-flex>
+
+							<v-flex md4 class="ml-4">
+								<v-layout column>
+									<v-flex md12 class="mb-3">
+										<searchdrug v-on:drugselected="updateActiveDrug" :list="drugsearchlist"></searchdrug>
+									</v-flex>
+
+									<v-flex md12 class="mb-3">
+										<billing :billinginfo="selectedDrugObj.billingInfo"></billing>
+									</v-flex>
+
+
+									<v-flex md12 class="mb-3">
+										<notes :note="selectedDrugObj.notes"></notes>
+									</v-flex>
+
+									<v-flex md12>
+										<auxiliary :labels ="selectedDrugObj.auxiliary"></auxiliary>
+									</v-flex>
+									
+								</v-layout>
+							</v-flex>
+
+
+						</v-layout>
+
+					</v-container>
+
+
+				</v-content>
+			</main>
+		</v-app>
+
+	</div>
+
+
+	<script type="text/x-template" id="auxiliary-template">
+
+		<v-card>
+			<v-card-title primary-title>
+				<div>
+					<h3 class="headline mb-0">Auxiliary Labels</h3>
+				</div>
+			</v-card-title>
+			<v-card-text>
+			
+				<div v-for="label in labels"><img :src="label.img"></div>
+				
+			</v-card-text>
+
+		</v-card>
+
+	</script>
+
+	<script type="text/x-template" id="billing-template">
+
+		<v-card>
+			<v-card-title primary-title>
+				<div>
+					<h3 class="headline mb-0">Billing</h3>
+				</div>
+			</v-card-title>
+			<v-card-text>
+				<p>{{billinginfo}}</p>
+			</v-card-text>
+
+		</v-card>
+
+	</script>
+
+	<script type="text/x-template" id="searchdrug-template">
+
+		<v-card>
+			<v-card-text>
+				<v-select :items="list" v-model="selecteddrug" label="Drug Search" autocomplete append-icon="search" class="drugSearch"></v-select>
+			</v-card-text>
+		</v-card>
+
+
+	</script>
+
+	<script type="text/x-template" id="notes-template">
+
+		<v-card>
+			<v-card-title primary-title>
+				<div>
+					<h3 class="headline mb-0">Notes</h3>
+				</div>
+			</v-card-title>
+			<v-card-text>
+				<p>{{note}}</p>
+			</v-card-text>
+
+		</v-card>
+
+	</script>
+
+	<script type="text/x-template" id="drugindication-template">
+
+		<v-card>
+
+			<v-toolbar color="light-blue" dark>
+
+				<v-toolbar-title>Drug Status</v-toolbar-title>
+				<v-spacer></v-spacer>
+
+			</v-toolbar>
+
+			<v-layout row>
+				<v-flex md-8>
+					<v-card-title primary-title>
+						<div>
+							<h3 class="headline">{{drugname}} </h3>
+						</div>
+					</v-card-title>
+				</v-flex>
+
+				<v-flex md-4>
+					<div class="text-xs-right mr-4 mt-3">
+						<v-chip v-if="status" label outline color="blue" text-color="white">{{status}}</v-chip>
+					</div>
+				</v-flex>
+
+			</v-layout>
+
+
+			<v-card-text>
+
+				<div v-html="criteria"></div>
+
+			</v-card-text>
+		</v-card>
+
+
+	</script>
+
+	<script type="text/x-template" id="druginfo-template">
+
+		<v-card>
+			<v-toolbar color="light-blue" dark>
+
+				<v-toolbar-title>Drug Information</v-toolbar-title>
+				<v-spacer></v-spacer>
+
+
+			</v-toolbar>
+
+
+			<v-card-text>
+
+				<v-list two-line subheader>
+					<v-subheader inset>Document</v-subheader>
+
+					<referencetile v-for="doc in druginfo" :key="doc.name" :name="doc.name" :type="doc.type" :url="doc.url"></referencetile>
+
+				</v-list>
+
+			</v-card-text>
+
+
+		</v-card>
+
+	</script>
+
+	<script type="text/x-template" id="referencetile-template">
+
+
+
+		<v-list-tile avatar @click="openLink">
+
+			<v-list-tile-avatar>
+				<v-icon v-if="type === 'Regimen Reference Order'">assignment</v-icon>
+				<v-icon v-if="type === 'Triage Monitoring Form'">dashboard</v-icon>
+				<v-icon v-if="type === 'Patient Education'">class</v-icon>
+			</v-list-tile-avatar>
+
+			<v-list-tile-content>
+				<v-list-tile-title>{{type}}</v-list-tile-title>
+				<v-list-tile-sub-title>{{name}}</v-list-tile-sub-title>
+			</v-list-tile-content>
+
+		</v-list-tile>
+
+
+	</script>
+
+
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
+	<script>
+		Vue.component('auxiliary', {
+			template: "#auxiliary-template",
+			props: ["labels"],
+			data: function() {
+
+				return {
+
+				}
+
+			},
+			methods: {
+				openLink: function() {
+					// open the link
+					window.open(this.url);
+				}
+			}
+		})
+		
+		Vue.component('referencetile', {
+			template: "#referencetile-template",
+			props: ["name", "type", "url"],
+			data: function() {
+
+				return {
+
+				}
+
+			},
+			methods: {
+				openLink: function() {
+					// open the link
+					window.open(this.url);
+				}
+			}
+		})
+
+		Vue.component('druginfo', {
+			template: "#druginfo-template",
+			props: ["druginfo"],
+			data: function() {
+
+				return {
+
+				}
+
+			}
+		})
+
+		Vue.component('billing', {
+			template: "#billing-template",
+			props: ["billinginfo"],
+			data: function() {
+
+				return {
+
+				}
+
+			}
+		})
+
+		Vue.component('searchdrug', {
+			template: "#searchdrug-template",
+			props: ["list"],
+			data: function() {
+
+				return {
+					selecteddrug: ""
+				}
+
+			},
+
+			watch: {
+
+				selecteddrug: function(newVal) {
+
+					// when a drug is selected emit the value selected (newval)
+
+					this.$emit('drugselected', newVal);
+				}
+
+			}
+		})
+
+		Vue.component('notes', {
+			template: "#notes-template",
+			props: ["note"],
+			data: function() {
+
+				return {
+
+				}
+
+			}
+		})
+
+		Vue.component('drugindication', {
+			template: "#drugindication-template",
+			props: ["drugname", "status", "criteria"],
+			data: function() {
+
+				return {
+
+				}
+
+			}
+		})
+
+		var opdFormulary = new Vue({
+			el: '#app',
+			data: {
+
+				selecteddrug: "",
+				selectedDrugObj: {},
+				drugsearchlist: [],
+				allDrugData: []
+
+
+			},
+			methods: {
+
+				populateDrugSearchList: function(data) {
+
+					data.forEach(function(item) {
+
+						opdFormulary.drugsearchlist.push(item.drugName);
+
+					});
+
+				},
+
+				updateActiveDrug: function(drug) {
+					// method called using v-on from the searchdrug component when a drug is selected from the select box
+					this.selecteddrug = drug;
+				}
+
+			},
+			//as the app loads
+			created: function() {
+				$.getJSON('opdformulary.txt')
+					.done(function(data) {
+
+
+						// loop through all of the data and populate the drug search list
+						opdFormulary.populateDrugSearchList(data.opdformulary);
+						// store drug data
+						opdFormulary.allDrugData = data.opdformulary;
+
+
+					})
+					.fail(function() {
+
+						//console.log(“something when wrong”);
+					})
+					.always(function() {
+						// console.log(“This is always run”)
+					});
+
+			},
+
+
+			watch: {
+
+				selecteddrug: function(newValue) {
+
+
+					// watch the value of selecteddrug and set the selectedDrugObj with the matching name
+
+					opdFormulary.allDrugData.forEach(function(item) {
+
+						item.drugName === newValue ? opdFormulary.selectedDrugObj = item : null;
+
+
+					});
+
+				}
+
+
+			}
+
+		})
+
+	</script>
+</body>
+
+</html>
