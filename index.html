@@ -2,16 +2,16 @@
 <html>
 
 <head>
-	<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
-	<link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
-	<link href="style.css" type="text/css" rel="stylesheet">
+	<link type="text/css" href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+	<link type="text/css" href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
+	<link type="text/css" href="style.css" rel="stylesheet">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 </head>
 
 <body>
-	<div id="app">
+	<div id="opdapp">
 
-		<v-app dark id="inspire">
+		<v-app light id="inspire">
 
 			<v-toolbar color="blue darken-3" dark app clipped-left fixed>
 				<v-toolbar-title class="ml-0 pl-3">
@@ -159,7 +159,7 @@
 
 				<v-flex md-4>
 					<div class="text-xs-right mr-4 mt-3">
-						<v-chip v-if="status" label outline color="blue" text-color="white">{{status}}</v-chip>
+						<v-chip v-if="status" label color="blue" text-color="white">{{status}}</v-chip>
 					</div>
 				</v-flex>
 
@@ -227,192 +227,7 @@
 	</script>
 
 
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-	<script src="https://unpkg.com/vue/dist/vue.js"></script>
-	<script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
-	<script>
-		Vue.component('auxiliary', {
-			template: "#auxiliary-template",
-			props: ["labels"],
-			data: function() {
-
-				return {
-
-				}
-
-			},
-			methods: {
-				openLink: function() {
-					// open the link
-					window.open(this.url);
-				}
-			}
-		})
-		
-		Vue.component('referencetile', {
-			template: "#referencetile-template",
-			props: ["name", "type", "url"],
-			data: function() {
-
-				return {
-
-				}
-
-			},
-			methods: {
-				openLink: function() {
-					// open the link
-					window.open(this.url);
-				}
-			}
-		})
-
-		Vue.component('druginfo', {
-			template: "#druginfo-template",
-			props: ["druginfo"],
-			data: function() {
-
-				return {
-
-				}
-
-			}
-		})
-
-		Vue.component('billing', {
-			template: "#billing-template",
-			props: ["billinginfo"],
-			data: function() {
-
-				return {
-
-				}
-
-			}
-		})
-
-		Vue.component('searchdrug', {
-			template: "#searchdrug-template",
-			props: ["list"],
-			data: function() {
-
-				return {
-					selecteddrug: ""
-				}
-
-			},
-
-			watch: {
-
-				selecteddrug: function(newVal) {
-
-					// when a drug is selected emit the value selected (newval)
-
-					this.$emit('drugselected', newVal);
-				}
-
-			}
-		})
-
-		Vue.component('notes', {
-			template: "#notes-template",
-			props: ["note"],
-			data: function() {
-
-				return {
-
-				}
-
-			}
-		})
-
-		Vue.component('drugindication', {
-			template: "#drugindication-template",
-			props: ["drugname", "status", "criteria"],
-			data: function() {
-
-				return {
-
-				}
-
-			}
-		})
-
-		var opdFormulary = new Vue({
-			el: '#app',
-			data: {
-
-				selecteddrug: "",
-				selectedDrugObj: {},
-				drugsearchlist: [],
-				allDrugData: []
-
-
-			},
-			methods: {
-
-				populateDrugSearchList: function(data) {
-
-					data.forEach(function(item) {
-
-						opdFormulary.drugsearchlist.push(item.drugName);
-
-					});
-
-				},
-
-				updateActiveDrug: function(drug) {
-					// method called using v-on from the searchdrug component when a drug is selected from the select box
-					this.selecteddrug = drug;
-				}
-
-			},
-			//as the app loads
-			created: function() {
-				$.getJSON('opdformulary.txt')
-					.done(function(data) {
-
-
-						// loop through all of the data and populate the drug search list
-						opdFormulary.populateDrugSearchList(data.opdformulary);
-						// store drug data
-						opdFormulary.allDrugData = data.opdformulary;
-
-
-					})
-					.fail(function() {
-
-						//console.log(“something when wrong”);
-					})
-					.always(function() {
-						// console.log(“This is always run”)
-					});
-
-			},
-
-
-			watch: {
-
-				selecteddrug: function(newValue) {
-
-
-					// watch the value of selecteddrug and set the selectedDrugObj with the matching name
-
-					opdFormulary.allDrugData.forEach(function(item) {
-
-						item.drugName === newValue ? opdFormulary.selectedDrugObj = item : null;
-
-
-					});
-
-				}
-
-
-			}
-
-		})
-
-	</script>
+	<script type="text/javascript" src="scripts.js"></script>
 </body>
 
 </html>

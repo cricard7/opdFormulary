@@ -24,17 +24,17 @@
 			{
 				"type": "Regimen Reference Order",
 				"name": "drug1 RRO",
-				"url": "http://www.royalbank.com"
+				"url": "http://www.google.com"
 			},
 			{
 				"type": "Triage Monitoring Form",
 				"name": "drug1 tmf",
-				"url": "http://www.royalbank.com"
+				"url": "http://www.google.com"
 			},
 			{
 				"type": "Patient Education",
 				"name": "drug1 patient education",
-				"url": "http://www.ign.com"
+				"url": "http://www.google.com"
 			}
 		]
 },
@@ -62,17 +62,17 @@
 			{
 				"type": "Regimen Reference Order",
 				"name": "drug2 RRO",
-				"url": "http://www.royalbank.com"
+				"url": "http://www.google.com"
 			},
 			{
 				"type": "Triage Monitoring Form",
 				"name": "drug2 tmf",
-				"url": "http://www.royalbank.com"
+				"url": "http://www.google.com"
 			},
 			{
 				"type": "Patient Education",
 				"name": "drug2 patient education",
-				"url": "http://www.ign.com"
+				"url": "http://www.google.com"
 			}
 		]
 }
