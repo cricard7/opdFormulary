@@ -9,18 +9,15 @@
 </head>
 
 <body>
+
+
+
 	<div id="opdapp">
 
 		<v-app light id="inspire">
 
-			<v-toolbar color="blue darken-3" dark app clipped-left fixed>
-				<v-toolbar-title class="ml-0 pl-3">
-					Outpatient Dispensing WebApp
-				</v-toolbar-title>
 
-				<v-spacer></v-spacer>
-				
-			</v-toolbar>
+
 			<main>
 				<v-content>
 					<v-container fluid grid-list-md class="mt-5">
@@ -57,9 +54,9 @@
 									</v-flex>
 
 									<v-flex md12>
-										<auxiliary :labels ="selectedDrugObj.auxiliary"></auxiliary>
+										<auxiliary :labels="selectedDrugObj.auxiliary"></auxiliary>
 									</v-flex>
-									
+
 								</v-layout>
 							</v-flex>
 
@@ -75,156 +72,6 @@
 
 	</div>
 
-
-	<script type="text/x-template" id="auxiliary-template">
-
-		<v-card>
-			<v-card-title primary-title>
-				<div>
-					<h3 class="headline mb-0">Auxiliary Labels</h3>
-				</div>
-			</v-card-title>
-			<v-card-text>
-			
-				<div v-for="label in labels"><img :src="label.img"></div>
-				
-			</v-card-text>
-
-		</v-card>
-
-	</script>
-
-	<script type="text/x-template" id="billing-template">
-
-		<v-card>
-			<v-card-title primary-title>
-				<div>
-					<h3 class="headline mb-0">Billing</h3>
-				</div>
-			</v-card-title>
-			<v-card-text>
-				<p>{{billinginfo}}</p>
-			</v-card-text>
-
-		</v-card>
-
-	</script>
-
-	<script type="text/x-template" id="searchdrug-template">
-
-		<v-card>
-			<v-card-text>
-				<v-select :items="list" v-model="selecteddrug" label="Drug Search" autocomplete append-icon="search" class="drugSearch"></v-select>
-			</v-card-text>
-		</v-card>
-
-
-	</script>
-
-	<script type="text/x-template" id="notes-template">
-
-		<v-card>
-			<v-card-title primary-title>
-				<div>
-					<h3 class="headline mb-0">Notes</h3>
-				</div>
-			</v-card-title>
-			<v-card-text>
-				<p>{{note}}</p>
-			</v-card-text>
-
-		</v-card>
-
-	</script>
-
-	<script type="text/x-template" id="drugindication-template">
-
-		<v-card>
-
-			<v-toolbar color="light-blue" dark>
-
-				<v-toolbar-title>Drug Status</v-toolbar-title>
-				<v-spacer></v-spacer>
-
-			</v-toolbar>
-
-			<v-layout row>
-				<v-flex md-8>
-					<v-card-title primary-title>
-						<div>
-							<h3 class="headline">{{drugname}} </h3>
-						</div>
-					</v-card-title>
-				</v-flex>
-
-				<v-flex md-4>
-					<div class="text-xs-right mr-4 mt-3">
-						<v-chip v-if="status" label color="blue" text-color="white">{{status}}</v-chip>
-					</div>
-				</v-flex>
-
-			</v-layout>
-
-
-			<v-card-text>
-
-				<div v-html="criteria"></div>
-
-			</v-card-text>
-		</v-card>
-
-
-	</script>
-
-	<script type="text/x-template" id="druginfo-template">
-
-		<v-card>
-			<v-toolbar color="light-blue" dark>
-
-				<v-toolbar-title>Drug Information</v-toolbar-title>
-				<v-spacer></v-spacer>
-
-
-			</v-toolbar>
-
-
-			<v-card-text>
-
-				<v-list two-line subheader>
-					<v-subheader inset>Document</v-subheader>
-
-					<referencetile v-for="doc in druginfo" :key="doc.name" :name="doc.name" :type="doc.type" :url="doc.url"></referencetile>
-
-				</v-list>
-
-			</v-card-text>
-
-
-		</v-card>
-
-	</script>
-
-	<script type="text/x-template" id="referencetile-template">
-
-
-
-		<v-list-tile avatar @click="openLink">
-
-			<v-list-tile-avatar>
-				<v-icon v-if="type === 'Regimen Reference Order'">assignment</v-icon>
-				<v-icon v-if="type === 'Triage Monitoring Form'">dashboard</v-icon>
-				<v-icon v-if="type === 'Patient Education'">class</v-icon>
-			</v-list-tile-avatar>
-
-			<v-list-tile-content>
-				<v-list-tile-title>{{type}}</v-list-tile-title>
-				<v-list-tile-sub-title>{{name}}</v-list-tile-sub-title>
-			</v-list-tile-content>
-
-		</v-list-tile>
-
-
-	</script>
 
 
 	<script type="text/javascript" src="scripts.js"></script>

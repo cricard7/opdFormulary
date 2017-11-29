@@ -2,3 +2,24 @@ body{
 	
 	background-color: grey;
 }
+
+.menu_content{
+	
+	position: fixed !important;
+	top: 0px !important;
+	left: 0px !important;
+	background-color: rebeccapurple;
+}
+
+.toolbar_title{
+	
+	font-size: 33em;
+}
+
+.menu__content.menu__content--select.menu__content--autocomplete.menuable__content__active{
+	
+	position: absolute;
+	top: 0px !important;
+	left: 200px !important;
+	
+}
